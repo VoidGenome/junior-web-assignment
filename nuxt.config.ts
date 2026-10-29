@@ -29,5 +29,10 @@ export default defineNuxtConfig({
         }
       ]
     }
-  }
+  },
+  runtimeConfig: {
+    public: {
+      idxUrl:  process.env.NUXT_PUBLIC_IDX_URL || '',
+    },
+  },
 })

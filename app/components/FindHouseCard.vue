@@ -35,12 +35,14 @@
             id="f-type"
             v-model="filters.type"
             :items="types"
+            item-title="title"
+            item-value="value"
             variant="outlined"
             density="comfortable"
             color="accent"
             hide-details
             aria-label="Type"
-          />
+            />
         </v-col>
 
         <v-col cols="12" sm="6" md="4">
@@ -161,7 +163,8 @@ useHead({
 const emit = defineEmits<{
   (e: 'search', filters: Record<string, unknown>): void
 }>()
-
+const config = useRuntimeConfig()
+const IDX_URL = "https://theridgerealty.idxbroker.com/idx/results/listings"
 const defaults = () => ({
   location: '',
   type: 'Any',
@@ -175,7 +178,14 @@ const defaults = () => ({
 const filters = reactive(defaults())
 
 const reset = () => Object.assign(filters, defaults())
-
+const counts = [
+  { title: 'Any', value: '' },
+  { title: '1+', value: 1 },
+  { title: '2+', value: 2 },
+  { title: '3+', value: 3 },
+  { title: '4+', value: 4 },
+  { title: '5+', value: 5 },
+]
 const search = () => {
   if (
     filters.minPrice != null &&
@@ -184,9 +194,22 @@ const search = () => {
   ) {
     ;[filters.minPrice, filters.maxPrice] = [filters.maxPrice, filters.minPrice]
   }
+  
+  const params = new URLSearchParams()
 
-  emit('search', { ...filters })
-  console.log('Search filters:', { ...filters })
+  if (filters.location) {
+    params.append('ccz', 'city')
+    params.append('city[]', String(filters.location))
+  }
+  if (filters.type) params.append('pt', String(filters.type))
+  if (filters.sortBy) params.append('srt', String(filters.sortBy))
+  if (filters.bedrooms) params.append('bd', String(filters.bedrooms))
+  if (filters.baths) params.append('tb', String(filters.baths))
+  if (filters.minPrice != null) params.append('lp', String(filters.minPrice))
+  if (filters.maxPrice != null) params.append('hp', String(filters.maxPrice))
+
+  const url = `${IDX_URL}?${params.toString()}`
+  window.open(url, '_blank', 'noopener')
 }
 
 const locations = [
@@ -232,15 +255,25 @@ const locations = [
   { title: 'Tonopah', value: 'tonopah' },
 ]
 
-const types = ['Any', 'House', 'Condo', 'Land', 'Commercial']
+const types = [
+  { title: 'Any', value: '' },
+  { title: 'Residential', value: '1' },
+  { title: 'Residential Lease', value: '11' },
+  { title: 'High Rise', value: '6' },
+  { title: 'Land', value: '7' },
+]
 
 const sortOptions = [
   { title: 'Newest', value: 'newest' },
-  { title: 'Price: Low to High', value: 'price-asc' },
-  { title: 'Price: High to Low', value: 'price-desc' },
+  { title: 'Oldest', value: 'oldest' },
+  { title: 'Least Expensive to Most', value: 'pra' },
+  { title: 'Most Expensive to Least', value: 'prd' },
+  { title: 'Bedrooms (Low to High)', value: 'bda' },
+  { title: 'Bedrooms (High to Low)', value: 'bdd' },
+  { title: 'Bathrooms (Low to High)', value: 'tba' },
+  { title: 'Bathrooms (High to Low)', value: 'tbd' },
 ]
 
-const counts = ['Any', '1+', '2+', '3+', '4+', '5+']
 </script>
 
 <style scoped>

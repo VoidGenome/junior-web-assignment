@@ -74,6 +74,8 @@
 </template>
 
 <script setup lang="ts">
+import { useDisplay } from 'vuetify'
+const { smAndDown } = useDisplay()
 const drawer = ref(false)
 const showServices = ref(false)
 const showContact = ref(false)

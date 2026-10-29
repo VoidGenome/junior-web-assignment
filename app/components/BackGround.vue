@@ -32,7 +32,7 @@
         >
         PAHRUMP REALTOR
       </div>
-      <v-btn size="large" color="white" to="/contact" rounded="pill">
+      <v-btn size="large" color="white" rounded="pill"  href="tel:+17025551234">
         <span class="pa-2 text-black" style="font-size: 20px;">
             Call Now
         </span>
