@@ -28,11 +28,11 @@
       <div class="my-2" style="font-size:20px;">206-919-6886</div>
       <div class="text-subtitle-1 mb-1">MARCI METZGER - THE RIDGE REALTY GROUP</div>
       <div
-        style="font-size: 50px !important; margin-bottom: 24px;"
+        class="hero-title"
         >
         PAHRUMP REALTOR
       </div>
-      <v-btn size="large" color="white" rounded="pill"  href="tel:+17025551234">
+      <v-btn size="large" color="white" rounded="pill"  href="tel:+2069196886">
         <span class="pa-2 text-black" style="font-size: 20px;">
             Call Now
         </span>
@@ -54,6 +54,19 @@
   width: 300px;
   max-width: 100%;      
   aspect-ratio: 1;  
+}
+.hero-title {
+  font-size: clamp(1.75rem, 7vw, 3.125rem);
+  line-height: 1.15;
+  margin-bottom: 24px;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 375px) {
+  .hero-title {
+    font-size: 1.5rem; 
+    margin-bottom: 16px;
+  }
 }
 
 @media (max-width: 600px) {
